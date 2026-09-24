@@ -1,0 +1,18 @@
+# Flutter
+frontend/build/
+frontend/.dart_tool/
+frontend/.flutter-plugin-dependencies
+
+# Node
+backend/node_modules/
+backend/.env
+
+# General
+.vscode/
+.DS_Store
+
+frontend/android/
+frontend/ios/
+frontend/macos/
+frontend/linux/
+frontend/windows/
