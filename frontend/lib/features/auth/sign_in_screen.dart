@@ -6,6 +6,8 @@ import '../../core/utils/responsive.dart';
 import '../../core/widgets/app_text_field.dart';
 import '../../core/widgets/auth_side_panel.dart';
 import '../../core/widgets/primary_button.dart';
+import '../../core/api/api_client.dart';
+import 'auth_service.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -27,8 +29,24 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
+  String? _error;
+
   Future<void> _submit() async {
-    // Wired up once the auth controller is ready.
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      await AuthService.login(
+        email: _email.text.trim(),
+        password: _password.text,
+      );
+      if (mounted) context.go('/dashboard');
+    } on ApiException catch (e) {
+      setState(() => _error = e.message);
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
@@ -109,6 +127,13 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             const SizedBox(height: 28),
+            if (_error != null) ...[
+              Text(
+                _error!,
+                style: const TextStyle(color: Colors.red, fontSize: 13),
+              ),
+              const SizedBox(height: 12),
+            ],
             PrimaryButton(
               label: 'Login',
               onPressed: _submit,
