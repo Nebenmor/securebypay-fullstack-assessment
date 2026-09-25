@@ -111,21 +111,24 @@ class OverviewSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.arrow_upward,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    Text(
-                      '${s['change']}%',
-                      style: const TextStyle(
-                        fontSize: 12,
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.arrow_upward,
+                        size: 14,
                         color: Colors.green,
                       ),
-                    ),
-                  ],
+                      Text(
+                        '${s['change']}%',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -188,7 +191,14 @@ class OverviewSection extends StatelessWidget {
               SizedBox(width: double.infinity, child: balanceCard),
               for (final s in stats) ...[
                 const SizedBox(height: 12),
-                SizedBox(width: double.infinity, child: statCard(s, iconFor[s['key']]!.$1, iconFor[s['key']]!.$2)),
+                SizedBox(
+                  width: double.infinity,
+                  child: statCard(
+                    s,
+                    iconFor[s['key']]!.$1,
+                    iconFor[s['key']]!.$2,
+                  ),
+                ),
               ],
             ],
           )
@@ -200,7 +210,13 @@ class OverviewSection extends StatelessWidget {
                 Expanded(flex: 2, child: balanceCard),
                 for (final s in stats) ...[
                   const SizedBox(width: 16),
-                  Expanded(child: statCard(s, iconFor[s['key']]!.$1, iconFor[s['key']]!.$2)),
+                  Expanded(
+                    child: statCard(
+                      s,
+                      iconFor[s['key']]!.$1,
+                      iconFor[s['key']]!.$2,
+                    ),
+                  ),
                 ],
               ],
             ),

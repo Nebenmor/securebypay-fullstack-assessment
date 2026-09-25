@@ -8,29 +8,50 @@ class DashboardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
+
     return Container(
-      height: 96,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      constraints: BoxConstraints(minHeight: isMobile ? 80 : 96),
+      padding: EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: isMobile ? 16 : 0,
+      ),
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(bottom: BorderSide(color: AppColors.sidebarBorder)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (onMenuTap != null) ...[
             IconButton(icon: const Icon(Icons.menu), onPressed: onMenuTap),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
           ],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text('Invite & Earn', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-                SizedBox(height: 4),
+              children: [
+                Text(
+                  'Invite & Earn',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
                 Text(
                   'Keep track of your addresses, location updates. Edit, Delete, Update and see all your saved addresses',
-                  style: TextStyle(fontSize: 12, height: 20 / 12, color: AppColors.neutral500),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    height: 20 / 12,
+                    color: AppColors.neutral500,
+                  ),
+                  maxLines: isMobile ? 2 : 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -50,14 +71,20 @@ class BusinessBanner extends StatelessWidget {
 
     return Container(
       height: 245,
-      decoration: BoxDecoration(color: AppColors.bannerBg, borderRadius: BorderRadius.circular(6)),
+      decoration: BoxDecoration(
+        color: AppColors.bannerBg,
+        borderRadius: BorderRadius.circular(6),
+      ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
           Positioned.fill(
             child: Opacity(
               opacity: 0.15,
-              child: Image.asset('assets/images/banner_pattern.png', fit: BoxFit.cover),
+              child: Image.asset(
+                'assets/images/banner_pattern.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           if (!isMobile)
@@ -65,7 +92,11 @@ class BusinessBanner extends StatelessWidget {
               right: 24,
               top: 0,
               bottom: 0,
-              child: Image.asset('assets/images/banner_illustration.png', height: 200, fit: BoxFit.contain),
+              child: Image.asset(
+                'assets/images/banner_illustration.png',
+                height: 200,
+                fit: BoxFit.contain,
+              ),
             ),
           Padding(
             padding: const EdgeInsets.all(32),
