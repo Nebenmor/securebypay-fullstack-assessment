@@ -32,7 +32,7 @@ class Sidebar extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          const SizedBox(height: 24),
+          const SizedBox(height: 120),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -98,6 +98,7 @@ class _NavTileState extends State<_NavTile> {
       cursor: SystemMouseCursors.click,
       child: Container(
         margin: const EdgeInsets.only(bottom: 4),
+        constraints: const BoxConstraints(minHeight: 56),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: active
