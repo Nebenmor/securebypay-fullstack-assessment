@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/responsive.dart';
 
 class DashboardHeader extends StatelessWidget {
   final VoidCallback? onMenuTap;
@@ -45,6 +46,8 @@ class BusinessBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
+
     return Container(
       height: 245,
       decoration: BoxDecoration(color: AppColors.bannerBg, borderRadius: BorderRadius.circular(6)),
@@ -57,12 +60,13 @@ class BusinessBanner extends StatelessWidget {
               child: Image.asset('assets/images/banner_pattern.png', fit: BoxFit.cover),
             ),
           ),
-          Positioned(
-            right: 24,
-            top: 0,
-            bottom: 0,
-            child: Image.asset('assets/images/banner_illustration.png', height: 200, fit: BoxFit.contain),
-          ),
+          if (!isMobile)
+            Positioned(
+              right: 24,
+              top: 0,
+              bottom: 0,
+              child: Image.asset('assets/images/banner_illustration.png', height: 200, fit: BoxFit.contain),
+            ),
           Padding(
             padding: const EdgeInsets.all(32),
             child: Align(
@@ -70,7 +74,7 @@ class BusinessBanner extends StatelessWidget {
               child: Text(
                 'KEEP UP WITH YOUR\nBUSINESS NEEDS',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: isMobile ? 24 : 32,
                   fontWeight: FontWeight.w900,
                   height: 44 / 42.47,
                   letterSpacing: -0.5,

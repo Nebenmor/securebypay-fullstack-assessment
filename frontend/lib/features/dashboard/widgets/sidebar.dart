@@ -23,7 +23,8 @@ const _navItems = [
 
 class Sidebar extends StatelessWidget {
   final String userName;
-  const Sidebar({super.key, required this.userName});
+  final VoidCallback? onClose;
+  const Sidebar({super.key, required this.userName, this.onClose});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,16 @@ class Sidebar extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          const SizedBox(height: 120),
+          if (onClose != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8, right: 8),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(icon: const Icon(Icons.close), onPressed: onClose),
+              ),
+            )
+          else
+            const SizedBox(height: 120),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),

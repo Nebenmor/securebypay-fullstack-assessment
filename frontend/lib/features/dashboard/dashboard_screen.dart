@@ -46,7 +46,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   final name = snap.hasData
                       ? '${snap.data![0]['user']['firstName']} ${snap.data![0]['user']['lastName']}'
                       : '';
-                  return Sidebar(userName: name);
+                  return Sidebar(
+                    userName: name,
+                    onClose: () => Navigator.of(context).pop(),
+                  );
                 },
               ),
             ),
