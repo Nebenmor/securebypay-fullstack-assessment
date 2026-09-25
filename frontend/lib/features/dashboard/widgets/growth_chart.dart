@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/responsive.dart';
 import '../dashboard_service.dart';
 import 'growth_line.dart';
 
@@ -51,25 +52,37 @@ class _GrowthChartCardState extends State<GrowthChartCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.sidebarBorder)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Company Growth', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              Container(
-                width: 272,
-                height: 40,
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(color: const Color(0xFFF2F4F7), borderRadius: BorderRadius.circular(8)),
-                child: Row(children: [_tab('Year', 'year'), _tab('Month', 'month'), _tab('Week', 'week')]),
-              ),
-            ],
-          ),
+          if (isMobile) ...[
+            const Text('Company Growth', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 12),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(color: const Color(0xFFF2F4F7), borderRadius: BorderRadius.circular(8)),
+              child: Row(children: [_tab('Year', 'year'), _tab('Month', 'month'), _tab('Week', 'week')]),
+            ),
+          ] else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Company Growth', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                Container(
+                  width: 272,
+                  height: 40,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(color: const Color(0xFFF2F4F7), borderRadius: BorderRadius.circular(8)),
+                  child: Row(children: [_tab('Year', 'year'), _tab('Month', 'month'), _tab('Week', 'week')]),
+                ),
+              ],
+            ),
           const SizedBox(height: 16),
           SizedBox(
             height: 220,
