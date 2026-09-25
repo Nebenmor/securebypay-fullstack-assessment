@@ -3,7 +3,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/responsive.dart';
 import 'dashboard_service.dart';
 import 'widgets/dashboard_header.dart';
-import 'widgets/growth_chart.dart';
+import 'widgets/growth_chart.dart'; // now exports GrowthChartCard
 import 'widgets/overview_section.dart';
 import 'widgets/shipment_tile.dart';
 import 'widgets/sidebar.dart';
@@ -37,13 +37,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.authBg,
-      drawer: isDesktop ? null : Drawer(child: FutureBuilder<List<dynamic>>(
-        future: _future,
-        builder: (context, snap) {
-          final name = snap.hasData ? '${snap.data![0]['user']['firstName']} ${snap.data![0]['user']['lastName']}' : '';
-          return Sidebar(userName: name);
-        },
-      )),
+      drawer: isDesktop
+          ? null
+          : Drawer(
+              child: FutureBuilder<List<dynamic>>(
+                future: _future,
+                builder: (context, snap) {
+                  final name = snap.hasData
+                      ? '${snap.data![0]['user']['firstName']} ${snap.data![0]['user']['lastName']}'
+                      : '';
+                  return Sidebar(userName: name);
+                },
+              ),
+            ),
       body: FutureBuilder<List<dynamic>>(
         future: _future,
         builder: (context, snapshot) {
@@ -51,7 +57,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Could not load dashboard: ${snapshot.error}'));
+            return Center(
+              child: Text('Could not load dashboard: ${snapshot.error}'),
+            );
           }
 
           final me = snapshot.data![0]['user'];
@@ -66,12 +74,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const BusinessBanner(),
+                const SizedBox(height: 12),
+                const BannerDots(),
                 const SizedBox(height: 24),
-                OverviewSection(walletBalance: (overview['walletBalance'] as num).toDouble(), stats: overview['stats']),
+                OverviewSection(
+                  walletBalance: (overview['walletBalance'] as num).toDouble(),
+                  stats: overview['stats'],
+                ),
                 const SizedBox(height: 24),
-                const Text('Recent shipment', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Recent shipment',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.sidebarBorder),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.neutral500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 16),
-                GrowthChart(labels: growth['labels'], values: growth['values']),
+                GrowthChartCard(initialGrowth: growth),
                 const SizedBox(height: 16),
                 for (final s in shipments) ShipmentTile(shipment: s),
               ],
@@ -81,7 +123,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           if (!isDesktop) {
             return Column(
               children: [
-                DashboardHeader(onMenuTap: () => _scaffoldKey.currentState?.openDrawer()),
+                DashboardHeader(
+                  onMenuTap: () => _scaffoldKey.currentState?.openDrawer(),
+                ),
                 Expanded(child: content),
               ],
             );
