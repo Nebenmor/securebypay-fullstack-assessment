@@ -77,41 +77,58 @@ class Sidebar extends StatelessWidget {
   }
 }
 
-class _NavTile extends StatelessWidget {
+class _NavTile extends StatefulWidget {
   final _NavItem item;
   final bool isActive;
   const _NavTile({required this.item, required this.isActive});
 
   @override
+  State<_NavTile> createState() => _NavTileState();
+}
+
+class _NavTileState extends State<_NavTile> {
+  bool _hover = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : null,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            item.icon,
-            width: 20,
-            height: 20,
-            colorFilter: ColorFilter.mode(
-              isActive ? const Color(0xFFEBFFE2) : AppColors.textSecondary,
-              BlendMode.srcIn,
+    final active = widget.isActive;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: active
+              ? AppColors.primary
+              : _hover
+                  ? AppColors.authBg
+                  : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              widget.item.icon,
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                active ? const Color(0xFFEBFFE2) : AppColors.textSecondary,
+                BlendMode.srcIn,
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            item.label,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-              color: isActive ? const Color(0xFFEBFFE2) : AppColors.textSecondary,
+            const SizedBox(width: 8),
+            Text(
+              widget.item.label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+                color: active ? const Color(0xFFEBFFE2) : AppColors.textSecondary,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
