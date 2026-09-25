@@ -3,6 +3,7 @@
 A full-stack shipping/logistics web application built for the SecureByPay technical assessment. It replicates the provided Figma design (Sign Up, Sign In, Dashboard) with a fully responsive Flutter Web frontend and a Node.js/Express REST API backend.
 
 **Live demo:** https://securebypay-fullstack-assessment.vercel.app
+
 **Repository:** https://github.com/Nebenmor/securebypay-fullstack-assessment
 
 ---
