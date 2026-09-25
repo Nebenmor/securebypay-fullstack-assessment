@@ -67,8 +67,8 @@ class _ShipmentTileState extends State<ShipmentTile> {
             const SizedBox(height: 12),
             Row(
               children: [
-                Expanded(child: _labelValue('Pick Up From', s['pickupLocation'])),
-                Expanded(child: _labelValue('Delivery To', s['deliveryLocation'])),
+                Expanded(child: _labelValue('Pick Up From', '🇳🇬 ${s['pickupLocation']}')),
+Expanded(child: _labelValue('Delivery To', '🇳🇬 ${s['deliveryLocation']}')),
                 Expanded(child: _labelValue('Amount', '₦${s['amount']}')),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -84,15 +84,23 @@ class _ShipmentTileState extends State<ShipmentTile> {
                 const SizedBox(width: 6),
                 Text('Processing time: ${s['processingTime']}', style: const TextStyle(fontSize: 12, color: AppColors.neutral500)),
                 const Spacer(),
-                OutlinedButton(onPressed: () {}, child: const Text('View More')),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(side: const BorderSide(color: Color(0xFF262A48)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                  onPressed: () {},
+                  child: const Text('View More'),
+                ),
                 const SizedBox(width: 8),
-                if (s['status'] == 'in_transit')
-                  ElevatedButton(onPressed: () {}, child: const Text('Print'))
-                else if (s['status'] == 'delayed')
+                if (s['status'] == 'delayed')
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, foregroundColor: Colors.white),
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF32385E), foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                     onPressed: () {},
                     child: const Text('Pay Now'),
+                  )
+                else
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.statusPaidBg, foregroundColor: AppColors.statusPaidText, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                    onPressed: null,
+                    child: const Text('Paid'),
                   ),
               ],
             ),
