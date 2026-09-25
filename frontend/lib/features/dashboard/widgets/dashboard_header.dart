@@ -47,27 +47,62 @@ class BusinessBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 245,
-      decoration: BoxDecoration(
-        color: AppColors.bannerBg,
-        borderRadius: BorderRadius.circular(6),
-        image: const DecorationImage(
-          image: AssetImage('assets/images/banner_pattern.png'),
-          fit: BoxFit.cover,
-          alignment: Alignment.centerRight,
-        ),
+      decoration: BoxDecoration(color: AppColors.bannerBg, borderRadius: BorderRadius.circular(6)),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.15,
+              child: Image.asset('assets/images/banner_pattern.png', fit: BoxFit.cover),
+            ),
+          ),
+          Positioned(
+            right: 24,
+            top: 0,
+            bottom: 0,
+            child: Image.asset('assets/images/banner_illustration.png', height: 200, fit: BoxFit.contain),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'KEEP UP WITH YOUR\nBUSINESS NEEDS',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                  height: 44 / 42.47,
+                  letterSpacing: -0.5,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.all(32),
-      alignment: Alignment.centerLeft,
-      child: const Text(
-        'KEEP UP WITH YOUR\nBUSINESS NEEDS',
-        style: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.w900,
-          height: 44 / 42.47,
-          letterSpacing: -0.5,
-          color: Colors.white,
-        ),
-      ),
+    );
+  }
+}
+
+class BannerDots extends StatelessWidget {
+  const BannerDots({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(3, (i) {
+        return Container(
+          width: 12,
+          height: 12,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: i == 1 ? const Color(0xFF32385E) : const Color(0xFFD4D4D4),
+          ),
+        );
+      }),
     );
   }
 }
