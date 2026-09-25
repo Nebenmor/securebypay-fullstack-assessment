@@ -16,3 +16,5 @@ frontend/ios/
 frontend/macos/
 frontend/linux/
 frontend/windows/
+.vercel
+.env*
